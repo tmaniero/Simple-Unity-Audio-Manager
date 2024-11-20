@@ -132,9 +132,16 @@ namespace JSAM.JSAMEditor
             using (new EditorGUI.DisabledScope(!spatialize.boolValue))
             {
                 EditorGUI.BeginChangeCheck();
+                EditorGUILayout.PropertyField(minDistance);
                 EditorGUILayout.PropertyField(maxDistance);
+                EditorGUILayout.PropertyField(rolloffMode);
                 if (EditorGUI.EndChangeCheck())
                 {
+                    if (minDistance.floatValue < 0)
+                    {
+                        minDistance.floatValue = -1;
+                    }
+
                     if (maxDistance.floatValue < 0)
                     {
                         maxDistance.floatValue = 0;

@@ -253,11 +253,10 @@ namespace JSAM
             if (JSAMSettings.Settings.Spatialize && audioFile.spatialize)
             {
                 AudioSource.spatialBlend = 1;
-                if (audioFile.maxDistance != 0)
-                {
-                    AudioSource.maxDistance = audioFile.maxDistance;
-                }
-                else AudioSource.maxDistance = JSAMSettings.Settings.DefaultSoundMaxDistance;
+
+                AudioSource.minDistance = (audioFile.minDistance >= 0) ? audioFile.minDistance : 1f;
+                AudioSource.maxDistance = (audioFile.maxDistance != 0) ? audioFile.maxDistance : JSAMSettings.Settings.DefaultSoundMaxDistance;
+                AudioSource.rolloffMode = audioFile.rolloffMode;
             }
             else
             {

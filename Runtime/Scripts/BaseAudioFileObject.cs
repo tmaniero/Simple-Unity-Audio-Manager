@@ -184,8 +184,14 @@ namespace JSAM
         [Tooltip("If true, playback will be affected based on distance and direction from listener. Otherwise, sounds will be played at the same volume at all times.")]
         public bool spatialize = false;
 
+        [Tooltip("Acts as an override to the min distance value set in the AudioSource prefab. Good for ambient sounds. Only works if \"spatialize\" is set to true.")]
+        public float minDistance = 0.05f;
+
         [Tooltip("If set above 0, sound can be heard from up to this distance before finally fading away. Acts as an override to the max distance value set in the AudioSource prefab. Good for ambient sounds. Only works if \"spatialize\" is set to true.")]
         public float maxDistance;
+
+        [Tooltip("Acts as an override to the rolloff mode value set in the AudioSource prefab. Only works if \"spatialize\" is set to true.")]
+        public AudioRolloffMode rolloffMode = AudioRolloffMode.Linear;
 
         [Tooltip("If there are several sounds playing at once, sounds with higher priority will be culled by Unity's sound system later than sounds with lower priority. \"Music\" has the absolute highest priority and \"Spam\" has the lowest.")]
         public Priority priority = Priority.Default;

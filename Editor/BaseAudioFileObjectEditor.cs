@@ -155,7 +155,9 @@ namespace JSAM.JSAMEditor
         protected SerializedProperty files;
         protected SerializedProperty relativeVolume;
         protected SerializedProperty spatialize;
+        protected SerializedProperty minDistance;
         protected SerializedProperty maxDistance;
+        protected SerializedProperty rolloffMode;
         protected SerializedProperty fadeInOut;
         protected SerializedProperty fadeInDuration;
         protected SerializedProperty fadeOutDuration;
@@ -180,8 +182,14 @@ namespace JSAM.JSAMEditor
             spatialize = FindProp(nameof(asset.spatialize));
             excludedProperties.Add(nameof(asset.spatialize));
 
+            minDistance = FindProp(nameof(asset.minDistance));
+            excludedProperties.Add(nameof(asset.minDistance));
+
             maxDistance = FindProp(nameof(asset.maxDistance));
             excludedProperties.Add(nameof(asset.maxDistance));
+
+            rolloffMode = FindProp(nameof(asset.rolloffMode));
+            excludedProperties.Add(nameof(asset.rolloffMode));
 
             fadeInOut = FindProp(nameof(fadeInOut));
             excludedProperties.Add(nameof(fadeInOut));
