@@ -18,6 +18,7 @@ namespace JSAM.JSAMEditor
             startingSoundChannels,
             startingMusicChannels,
             defaultSoundMaxDistance,
+            establishSingletonDominance,
             dontDestroyOnLoad,
             dynamicSourceAllocation,
             soundChannelPrefabOverride,
@@ -60,6 +61,7 @@ namespace JSAM.JSAMEditor
             startingSoundChannels = SettingsSO.FindProperty(nameof(startingSoundChannels));
             startingMusicChannels = SettingsSO.FindProperty(nameof(startingMusicChannels));
             defaultSoundMaxDistance = SettingsSO.FindProperty(nameof(defaultSoundMaxDistance));
+            establishSingletonDominance = SettingsSO.FindProperty(nameof(establishSingletonDominance));
             dontDestroyOnLoad = SettingsSO.FindProperty(nameof(dontDestroyOnLoad));
             dynamicSourceAllocation = SettingsSO.FindProperty(nameof(dynamicSourceAllocation));
             soundChannelPrefabOverride = SettingsSO.FindProperty(nameof(soundChannelPrefabOverride));
@@ -106,6 +108,7 @@ namespace JSAM.JSAMEditor
 
             EditorGUILayout.LabelField("General", EditorStyles.boldLabel);
             EditorGUILayout.PropertyField(defaultSoundMaxDistance);
+            EditorGUILayout.PropertyField(establishSingletonDominance);
             EditorGUILayout.PropertyField(dontDestroyOnLoad);
             EditorGUILayout.PropertyField(dynamicSourceAllocation);
             EditorGUILayout.PropertyField(spatializationMode);
