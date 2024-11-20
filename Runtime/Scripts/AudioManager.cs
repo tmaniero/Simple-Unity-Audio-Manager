@@ -147,10 +147,13 @@ namespace JSAM
             if (!initialized)
             {
                 // Find the listener if not manually set
-                FindNewListener();
+                FindNewListener(false);
 
                 doneLoading = true;
             }
+
+            // HACK tmaniero: load libraries
+            LoadLibraries();
         }
 
         private void OnEnable()
@@ -170,7 +173,7 @@ namespace JSAM
             isQuitting = true;
         }
 
-        void Start()
+        void LoadLibraries()
         {
             if (!library)
             {
@@ -183,11 +186,36 @@ namespace JSAM
                     library.Sounds[i].Initialize();
                 }
             }
+        }
+
+        void Start()
+        {
+            if (initialized)
+              return;
+
+            // HACK tmaniero: load libraries in Awake
+            //LoadLibraries();
+
+            BroadcastAudioListenerChange();
 
             initialized = true;
         }
 
-        void FindNewListener()
+        void BroadcastAudioListenerChange()
+        {
+            // HACK tmaniero: broadcast OnAudioListenerChange
+            for (int i = 0; i < SceneManager.sceneCount; ++i)
+            {
+                var scene = SceneManager.GetSceneAt(i);
+                var robjs = scene.GetRootGameObjects();
+                foreach (var o in robjs)
+                {
+                    o.BroadcastMessage("OnAudioListenerChange", options: SendMessageOptions.DontRequireReceiver);
+                }
+            }
+        }
+
+        void FindNewListener(bool sendMessage = true)
         {
             if (listener == null)
             {
@@ -219,6 +247,8 @@ namespace JSAM
                 if (success)
                 {
                     DebugLog("AudioManager located an AudioListener successfully!");
+                    if (sendMessage)
+                        BroadcastAudioListenerChange();
                 }
                 else
                 {
@@ -229,7 +259,7 @@ namespace JSAM
 
         void OnSceneChanged(Scene scene1, Scene scene2)
         {
-            FindNewListener();
+            FindNewListener(initialized);
             if (JSAMSettings.Settings.StopSoundsOnSceneChanged)
             {
                 StopAllSounds();
