@@ -295,6 +295,25 @@ namespace JSAM
         }
 
         #region PlaySound
+        private static bool _CheckPlayMaxDistance(SoundFileObject sound, Vector3 position, AudioListener listener)
+        {
+            if (sound == null || position == null || listener == null)
+                return true;
+            if (sound.spatialize && sound.playMaxDistance > 0f)
+            {
+                float distance = (position - listener.transform.position).magnitude;
+                return distance < sound.playMaxDistance;
+            }
+            return true;
+        }
+
+        private static bool _CheckPlayMaxDistance(SoundFileObject sound, Transform transform, AudioListener listener)
+        {
+            if (transform == null)
+                return true;
+            return _CheckPlayMaxDistance(sound, transform.position, listener);
+        }
+
         /// <summary>
         /// Plays the specified sound using the settings provided in the Sound File Object
         /// </summary>
@@ -306,7 +325,10 @@ namespace JSAM
         /// <returns>The Sound Channel Helper playing the sound</returns>
         public static SoundChannelHelper PlaySound<T>(T sound, Transform transform = null, SoundChannelHelper helper = null) where T : Enum
         {
-            return InternalInstance.PlaySoundInternal(GetSoundSafe(sound), transform, helper);
+            var soundFile = GetSoundSafe(sound);
+            if (!_CheckPlayMaxDistance(soundFile, transform, AudioListener))
+                return null;
+            return InternalInstance.PlaySoundInternal(soundFile, transform, helper);
         }
 
         /// <summary>
@@ -320,7 +342,10 @@ namespace JSAM
         /// <returns><inheritdoc cref="PlaySound{T}(T, Transform, SoundChannelHelper)" path="/returns"/></returns>
         public static SoundChannelHelper PlaySound<T>(T sound, Vector3 position, SoundChannelHelper helper = null) where T : Enum
         {
-            return InternalInstance.PlaySoundInternal(GetSoundSafe(sound), position, helper);
+            var soundFile = GetSoundSafe(sound);
+            if (!_CheckPlayMaxDistance(soundFile, position, AudioListener))
+                return null;
+            return InternalInstance.PlaySoundInternal(soundFile, position, helper);
         }
 
         /// <summary>
@@ -331,7 +356,12 @@ namespace JSAM
         /// <param name="helper">Optional: The specific channel you want to play the sound from. 
         /// <para>Good if you want an entity to only emit one sound at any time</para></param>
         /// <returns><inheritdoc cref="PlaySound{T}(T, Transform, SoundChannelHelper)" path="/returns"/></returns>
-        public static SoundChannelHelper PlaySound(SoundFileObject sound, Transform transform = null, SoundChannelHelper helper = null) => InternalInstance.PlaySoundInternal(sound, transform, helper);
+        public static SoundChannelHelper PlaySound(SoundFileObject sound, Transform transform = null, SoundChannelHelper helper = null)
+        {
+            if (!_CheckPlayMaxDistance(sound, transform, AudioListener))
+                return null;
+            return InternalInstance.PlaySoundInternal(sound, transform, helper);
+        } 
 
         /// <summary>
         /// <inheritdoc cref="PlaySound{T}(T, Transform, SoundChannelHelper)"/>
@@ -341,7 +371,12 @@ namespace JSAM
         /// <param name="helper">Optional: The specific channel you want to play the sound from. 
         /// <para>Good if you want an entity to only emit one sound at any time</para></param>
         /// <returns><inheritdoc cref="PlaySound{T}(T, Transform, SoundChannelHelper)" path="/returns"/></returns>
-        public static SoundChannelHelper PlaySound(SoundFileObject sound, Vector3 position, SoundChannelHelper helper = null) => InternalInstance.PlaySoundInternal(sound, position, helper);
+        public static SoundChannelHelper PlaySound(SoundFileObject sound, Vector3 position, SoundChannelHelper helper = null)
+        {
+            if (!_CheckPlayMaxDistance(sound, position, AudioListener))
+                return null;
+            return InternalInstance.PlaySoundInternal(sound, position, helper);
+        }
         #endregion
 
         #region StopSound

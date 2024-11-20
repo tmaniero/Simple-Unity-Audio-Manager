@@ -134,6 +134,7 @@ namespace JSAM.JSAMEditor
                 EditorGUI.BeginChangeCheck();
                 EditorGUILayout.PropertyField(minDistance);
                 EditorGUILayout.PropertyField(maxDistance);
+                EditorGUILayout.PropertyField(playMaxDistance);
                 EditorGUILayout.PropertyField(rolloffMode);
                 if (EditorGUI.EndChangeCheck())
                 {

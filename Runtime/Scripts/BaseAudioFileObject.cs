@@ -190,6 +190,9 @@ namespace JSAM
         [Tooltip("If set above 0, sound can be heard from up to this distance before finally fading away. Acts as an override to the max distance value set in the AudioSource prefab. Good for ambient sounds. Only works if \"spatialize\" is set to true.")]
         public float maxDistance;
 
+        [Tooltip("If set above 0, sound will play only if listener within playMaxDistance. Only works if \"spatialize\" is set to true.")]
+        public float playMaxDistance = 0f;
+
         [Tooltip("Acts as an override to the rolloff mode value set in the AudioSource prefab. Only works if \"spatialize\" is set to true.")]
         public AudioRolloffMode rolloffMode = AudioRolloffMode.Linear;
 
